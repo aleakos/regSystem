@@ -29,6 +29,19 @@ public class CourseCatalogue {
         imaginaryDB.put(ENGG259.toString(), ENGG259);
         imaginaryDB.put(ENGG607.toString(), ENGG607);
 
+        Course preReq = new Course("ENSF", "100");
+        CourseOffering co1 = new CourseOffering("Dr.A", 1);
+        CourseOffering co2 = new CourseOffering("Dr.B", 2);
+        CourseOffering co3 = new CourseOffering("Dr.C", 3);
+
+        for (Course c: imaginaryDB.values()){
+            c.addPreq(preReq);
+            c.addOffering(co1);
+            c.addOffering(co2);
+            c.addOffering(co3);
+        }
+
+
         return imaginaryDB;
     }
 

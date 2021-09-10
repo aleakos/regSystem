@@ -53,11 +53,16 @@ public class Course {
         return getCourseName() + getCourseNumber();
     }
 
+    public boolean equals(Course course){
+        return (course.getCourseName().equals(this.getCourseName()) &&
+                course.getCourseNumber().equals(this.getCourseNumber()));
+    }
+
+
     public static void main(String[] args) {
         Course course = new Course("ENSF","607");
         CourseOffering offering = new CourseOffering("Dr.M", 3);
         course.addOffering(offering);
-
     }
 }
 

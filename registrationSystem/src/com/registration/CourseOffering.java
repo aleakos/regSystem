@@ -8,6 +8,8 @@ public class CourseOffering {
     private Integer section;
     private String instructor;
 
+    private int maxStudents = 100;
+
 
     public CourseOffering(String instructor, Integer section) {
         this.instructor = instructor;
@@ -18,10 +20,21 @@ public class CourseOffering {
         registrations.add(registration);
     }
 
+    public void removeRegistration(Registration registration){
+        for(Registration reg: registrations){
+//             use == because we're looking for an instance match
+            if (reg == registration) {
+                registrations.remove(registration);
+                return;
+            }
+        }
+    }
+
 
     public ArrayList<Registration> getRegistrations() {
         return registrations;
     }
+
 
     public Integer getSection() {
         return section;
@@ -31,13 +44,21 @@ public class CourseOffering {
         return instructor;
     }
 
+    public void setMaxStudents(int maxStudents) {
+        this.maxStudents = maxStudents;
+    }
+
     public boolean classWillRun(){
         int minStudents = 8;
         return (registrations.size() >= minStudents);
     }
 
+    public boolean hasRoom(){
+        return (registrations.size() <= maxStudents);
+    }
+
     @Override
     public String toString(){
-        return getSection().toString() + getInstructor();
+        return getSection().toString();
     }
 }

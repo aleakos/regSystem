@@ -8,6 +8,7 @@ public class Registration {
     public Registration(Student student, CourseOffering courseOffering) {
         this.courseOffering = courseOffering;
         this.student = student;
+        addRegistration();
 
     }
 
@@ -24,6 +25,10 @@ public class Registration {
         courseOffering.addRegistration(this);
     }
 
+    public void removeRegistration(Student student, CourseOffering offering){
+        student.removeRegistration(this);
+        offering.removeRegistration(this);
+    }
 
     public void setGrade(char grade) {
         this.grade = grade;

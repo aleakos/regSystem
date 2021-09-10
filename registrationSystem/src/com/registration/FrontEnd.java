@@ -3,7 +3,11 @@ package com.registration;
 public class FrontEnd {
 
     public static void main(String[] args){
-        Course myCourse = new Course("ENSF", "607");
-        System.out.println("myCourse: " + myCourse);
+        CourseCatalogue catalogue = new CourseCatalogue();
+        System.out.println(catalogue.toString());
+        Name alex = new Name("Alex", "Leakos");
+        Student alexStudent = new Student(alex, 100);
+
+
     }
 }
