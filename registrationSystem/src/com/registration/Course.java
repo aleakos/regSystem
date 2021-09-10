@@ -14,6 +14,8 @@ public class Course {
     public Course(String courseName, String courseNumber){
         setCourseName(courseName);
         setCourseNumber(courseNumber);
+        offerings = new HashMap<>();
+        preReqs = new HashMap<>();
     }
 
     public void addPreq(Course course){preReqs.put(course.toString(), course); }
@@ -56,8 +58,6 @@ public class Course {
         CourseOffering offering = new CourseOffering("Dr.M", 3);
         course.addOffering(offering);
 
-
-        System.out.println("hello");
     }
 }
 

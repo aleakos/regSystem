@@ -11,6 +11,7 @@ public class CourseOffering {
 
     public CourseOffering(String instructor, Integer section) {
         this.instructor = instructor;
+        this.section = section;
     }
 
     public void addRegistration(Registration registration) {
@@ -37,6 +38,6 @@ public class CourseOffering {
 
     @Override
     public String toString(){
-        return getInstructor() + getSection();
+        return getSection().toString() + getInstructor();
     }
 }
