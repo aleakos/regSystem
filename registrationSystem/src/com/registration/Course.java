@@ -1,5 +1,6 @@
 package com.registration;
 
+import java.util.HashMap;
 import java.util.Set;
 import com.google.gson.*;
 
@@ -7,11 +8,22 @@ public class Course {
 
     private String courseName;
     private String courseNumber;
-    private Set<Course> preqs;
+    private HashMap<String, Course> preReqs;
+    private HashMap<Integer, CourseOffering> offerings;
 
     public Course(String courseName, String courseNumber){
         setCourseName(courseName);
         setCourseNumber(courseNumber);
+    }
+
+    public void addPreq(Course course){preReqs.put(course.toString(), course); }
+
+    public boolean checkPreq(Course course){
+        return preReqs.containsKey(course.toString());
+    }
+
+    public void addOffering(CourseOffering offering){
+        offerings.put(offering.getSection(), offering);
     }
 
     public String getCourseName() {
@@ -30,15 +42,22 @@ public class Course {
         this.courseNumber = courseNumber;
     }
 
-    public void addPreq(Course course){preqs.add(course); }
-
-    public boolean checkPreq(Course course){
-        return preqs.contains(course);
+    public HashMap<Integer, CourseOffering> getOfferings(){
+        return offerings;
     }
 
     @Override
     public String toString(){
         return getCourseName() + getCourseNumber();
+    }
+
+    public static void main(String[] args) {
+        Course course = new Course("ENSF","607");
+        CourseOffering offering = new CourseOffering("Dr.M", 3);
+        course.addOffering(offering);
+
+
+        System.out.println("hello");
     }
 }
 

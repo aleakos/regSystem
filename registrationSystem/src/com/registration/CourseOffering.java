@@ -1,34 +1,33 @@
 package com.registration;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.ArrayList;
 
 public class CourseOffering {
-    private final Course course;
-    private HashMap<String, Registration> registrations = new HashMap<String, Registration>();
-    private final Term term;
+    private ArrayList<Registration> registrations = new ArrayList<>();
+
+    private Integer section;
     private String instructor;
 
 
-    public CourseOffering(Course course, Term term) {
-        this.course = course;
-        this.term = term;
+    public CourseOffering(String instructor, Integer section) {
+        this.instructor = instructor;
     }
 
     public void addRegistration(Registration registration) {
-        registrations.put(registration.getSid(), registration);
+        registrations.add(registration);
     }
 
-    public Course getCourse() {
-        return course;
-    }
 
-    public HashMap<String, Registration> getRegistrations() {
+    public ArrayList<Registration> getRegistrations() {
         return registrations;
     }
 
-    public Term getTerm() {
-        return term;
+    public Integer getSection() {
+        return section;
+    }
+
+    public String getInstructor() {
+        return instructor;
     }
 
     public boolean classWillRun(){
@@ -38,6 +37,6 @@ public class CourseOffering {
 
     @Override
     public String toString(){
-        return course + getTerm().getTerm() + getTerm().getYear();
+        return getInstructor() + getSection();
     }
 }
