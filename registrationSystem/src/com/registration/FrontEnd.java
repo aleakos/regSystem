@@ -167,7 +167,7 @@ public class FrontEnd {
     public String promptCourseName() {
         do
         {
-            System.out.println("Enter the 4 character course name (eg ENGG) you'd like to take: ");
+            System.out.println("Enter the 4 character course name (eg ENGG): ");
             System.out.print(">>");
 
             String courseName = userIn.next();
@@ -185,7 +185,7 @@ public class FrontEnd {
     public String promptCourseNumber() {
         do
         {
-            System.out.println("Enter the 3 character course number (eg 100) you'd like to take: ");
+            System.out.println("Enter the 3 character course number (eg 100): ");
             System.out.print(">>");
 
             String courseNumber = userIn.next();
@@ -202,7 +202,7 @@ public class FrontEnd {
     public Integer promptSectionNumber() {
         do
         {
-            System.out.println("Enter the section number you want to enroll in: ");
+            System.out.println("Enter the section number: ");
 
             String sectionNumber = userIn.next();
             if(isNumeric(sectionNumber)){
