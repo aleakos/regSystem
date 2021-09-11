@@ -1,8 +1,6 @@
 package com.registration;
 
 import java.util.HashMap;
-import java.util.Set;
-import com.google.gson.*;
 
 public class Course {
 
@@ -48,9 +46,20 @@ public class Course {
         return offerings;
     }
 
+    public HashMap<String, Course> getPreReqs() {
+        return preReqs;
+    }
+
     @Override
     public String toString(){
         return getCourseName() + getCourseNumber();
+    }
+
+    public void showAllOfferings(){
+        for (CourseOffering o: offerings.values()){
+            System.out.println(o.displayOffering());
+            System.out.println();
+        }
     }
 
     public boolean equals(Course course){
@@ -61,8 +70,9 @@ public class Course {
 
     public static void main(String[] args) {
         Course course = new Course("ENSF","607");
-        CourseOffering offering = new CourseOffering("Dr.M", 3);
+        CourseOffering offering = new CourseOffering("Dr.M", 3, course);
         course.addOffering(offering);
+        System.out.println(offering.displayOffering());
     }
 }
 

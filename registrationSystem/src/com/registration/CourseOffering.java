@@ -5,15 +5,18 @@ import java.util.ArrayList;
 public class CourseOffering {
     private ArrayList<Registration> registrations = new ArrayList<>();
 
+//    unsure if this should be here, but it makes it easier
+    private Course course;
+
     private Integer section;
     private String instructor;
-
     private int maxStudents = 100;
 
 
-    public CourseOffering(String instructor, Integer section) {
+    public CourseOffering(String instructor, Integer section, Course course) {
         this.instructor = instructor;
         this.section = section;
+        this.course = course;
     }
 
     public void addRegistration(Registration registration) {
@@ -35,6 +38,9 @@ public class CourseOffering {
         return registrations;
     }
 
+    public Course getCourse(){
+        return course;
+    }
 
     public Integer getSection() {
         return section;
@@ -42,6 +48,10 @@ public class CourseOffering {
 
     public String getInstructor() {
         return instructor;
+    }
+
+    public Integer getMaxStudents() {
+        return maxStudents;
     }
 
     public void setMaxStudents(int maxStudents) {
@@ -60,5 +70,17 @@ public class CourseOffering {
     @Override
     public String toString(){
         return getSection().toString();
+    }
+
+    public String displayOffering(){
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("Course: ").append(getCourse()).append("\n");
+        builder.append("Section: ").append(getSection()).append("\n");
+        builder.append("Instructor: ").append(getInstructor()).append("\n");
+        builder.append("Students Registered: ").append(getRegistrations().size()).append("\n");
+        builder.append("Max Capacity: ").append(getMaxStudents());
+
+        return builder.toString();
     }
 }
