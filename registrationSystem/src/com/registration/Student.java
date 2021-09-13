@@ -100,10 +100,7 @@ public class Student {
         for (Course c: coursesTaken){
             if (newCourse.checkPreq(c)) preReqTally++;
         }
-        if (preReqTally == newCourse.getPreReqs().size()){
-            return true;
-        }
-        return false;
+        return preReqTally == newCourse.getPreReqs().size();
     }
 
     public static void main(String[] args) {

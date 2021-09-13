@@ -67,10 +67,6 @@ public class CourseOffering {
         return (registrations.size() <= maxStudents);
     }
 
-    @Override
-    public String toString(){
-        return getSection().toString();
-    }
 
     public String displayOffering(){
         StringBuilder builder = new StringBuilder();

@@ -172,7 +172,6 @@ public class FrontEnd {
 
             String courseName = userIn.next();
             if(courseName.length() == 4 && !isNumeric(courseName)){
-                System.out.println(courseName);
                 return courseName;
             }
             else
@@ -190,7 +189,6 @@ public class FrontEnd {
 
             String courseNumber = userIn.next();
             if(courseNumber.length() == 3 && isNumeric(courseNumber)){
-                System.out.println(courseNumber);
                 return courseNumber;
             }
             else
@@ -243,11 +241,5 @@ public class FrontEnd {
             int userSelection = commandLine.receiveInput();
             commandLine.menuSelect(userSelection);
         }
-
-//        System.out.println(catalogue.toString());
-//        Name alex = new Name("Alex", "Leakos");
-//        Student alexStudent = new Student(alex, 100);
-
-
     }
 }
