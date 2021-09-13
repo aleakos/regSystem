@@ -1,7 +1,10 @@
 package com.registration;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class FrontEnd {
+//    simulate Student database
+    HashMap<Integer, Student> studentDB;
     private CourseCatalogue catalogue;
     private Student thisStudent;
     private Scanner userIn = new Scanner(System.in);
@@ -12,8 +15,49 @@ public class FrontEnd {
 
     public FrontEnd(CourseCatalogue catalogue){
         this.catalogue = catalogue;
+        populateStudentDB();
 
     }
+
+    private void populateStudentDB(){
+        studentDB = new HashMap<>();
+
+        Student s1 = new Student(new Name("John", "Doe"));
+        Student s2 = new Student(new Name("Jane", "Doe"));
+        Student s3 = new Student(new Name("Joe", "Schmo"));
+
+        studentDB.put(s1.getSid(), s1);
+        studentDB.put(s2.getSid(), s2);
+        studentDB.put(s3.getSid(), s3);
+
+        //  dummy method to add ENGG 100 to all students
+        s1.addCoursesCompleted(new Course("ENGG", "100"));
+        s2.addCoursesCompleted(new Course("ENGG", "100"));
+        s3.addCoursesCompleted(new Course("ENGG", "100"));
+
+        //  s1 is the only student who can take ENSF700
+        s1.addCoursesCompleted(new Course("ENSF", "607"));
+    }
+
+    public void promptStudent(){
+        System.out.println("Hello! Welcome to the course registration system\n");
+        System.out.println("To start out we need some information:\n");
+        Student tempStudent = querySid();
+
+        if (tempStudent != null){
+            this.thisStudent = tempStudent;
+            System.out.println();
+            System.out.println("Welcome back " + thisStudent.getStudentName());
+            System.out.println();
+        } else {
+            System.out.println("We didn't recognize that ID... setting up new student");
+            System.out.println();
+            createStudent();
+        }
+
+    }
+
+
 
     public void createStudent(){
 
@@ -21,10 +65,6 @@ public class FrontEnd {
 
         String first;
         String last;
-        String sid;
-
-        System.out.println("Hello! Welcome to the course registration system\n");
-        System.out.println("To start out we need some information:\n");
 
         do
         {
@@ -51,7 +91,13 @@ public class FrontEnd {
         }
         while (!valid);
 
-        valid = false;
+        this.thisStudent = new Student(new Name(first, last));
+
+    }
+
+    public Student querySid(){
+        boolean valid = false;
+        String sid;
         do
         {
             System.out.println("What is your student ID ?");
@@ -63,9 +109,7 @@ public class FrontEnd {
                 System.out.println("Invalid input.");
         }
         while (!valid);
-
-        this.thisStudent = new Student(new Name(first, last), Integer.parseInt(sid));
-
+        return studentDB.get(Integer.parseInt(sid));
     }
 
     public Integer receiveInput(){
@@ -116,6 +160,7 @@ public class FrontEnd {
             case 4:
                 displayAllCatalouge();
                 break;
+//                is this showing enrolled classes or previously taken?
             case 5:
                 thisStudent.showClasses();
                 break;
@@ -235,7 +280,7 @@ public class FrontEnd {
 
         CourseCatalogue catalogue = new CourseCatalogue();
         FrontEnd commandLine = new FrontEnd(catalogue);
-        commandLine.createStudent();
+        commandLine.promptStudent();
 //        loop through until the user exits
         while(true){
             int userSelection = commandLine.receiveInput();

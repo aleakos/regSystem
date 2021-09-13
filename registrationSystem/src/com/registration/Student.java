@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 public class Student {
     private final Name studentName;
-    private final int sid;
+    private static int nextSid = 100;
+    private int sid;
     private ArrayList<Registration> registrations;
-    private ArrayList<Course> coursesTaken;
+    private ArrayList<Course> coursesCompleted;
 
-    public Student(Name studentName, int sid){
+    public Student(Name studentName){
         registrations = new ArrayList<>();
-        coursesTaken = new ArrayList<>();
-
+        coursesCompleted = new ArrayList<>();
         this.studentName = studentName;
-//         assume unique - implmented in DB
-        this.sid = sid;
-        coursesTaken.add(new Course("ENGG", "100"));
+
+        setSid();
+
     }
 
     public void register(CourseCatalogue catalogue, String courseName, String courseNumber,  Integer sectionNumber){
@@ -97,16 +97,35 @@ public class Student {
     public boolean meetsPreReq(Course newCourse){
         int preReqTally = 0;
 
-        for (Course c: coursesTaken){
+        for (Course c: coursesCompleted){
             if (newCourse.checkPreq(c)) preReqTally++;
         }
         return preReqTally == newCourse.getPreReqs().size();
     }
 
+    private void setSid(){
+        this.sid = nextSid;
+        nextSid++;
+    }
+
+    public int getSid(){
+        return sid;
+    }
+
+    public void addCoursesCompleted(Course courseTaken){
+        coursesCompleted.add(courseTaken);
+    }
+
+    public Name getStudentName(){
+        return studentName;
+    }
+
     public static void main(String[] args) {
+//        testing
         CourseCatalogue catalogue = new CourseCatalogue();
         Name alex = new Name("Alex", "Leakos");
-        Student alexStudent = new Student(alex, 100);
+        Student alexStudent = new Student(alex);
+        alexStudent.addCoursesCompleted(new Course("ENGG", "100"));
 
         alexStudent.register(catalogue, "ENSF", "607", 3);
         alexStudent.register(catalogue, "ENSF", "608", 3);
@@ -114,9 +133,10 @@ public class Student {
         alexStudent.register(catalogue, "ENSF", "614", 3);
         alexStudent.register(catalogue, "ENGG", "500", 3);
         alexStudent.register(catalogue, "ENGG", "101", 3);
+        alexStudent.showClasses();
         alexStudent.register(catalogue, "ENGG", "500", 3);
         alexStudent.unRegister(catalogue, "ENGG", "500", 3);
-        alexStudent.register(catalogue, "ENGG", "101", 3);
+        alexStudent.showClasses();
         alexStudent.unRegister(catalogue, "ENGG", "101", 3);
         alexStudent.showClasses();
         alexStudent.register(catalogue, "ENSF", "700", 3);
@@ -124,7 +144,7 @@ public class Student {
         alexStudent.unRegister(catalogue, "ENSF", "700", 3);
         alexStudent.unRegister(catalogue, "ENSF", "607", 3);
 //         adding in a pre req
-        alexStudent.coursesTaken.add(new Course("ENSF", "607"));
+        alexStudent.addCoursesCompleted(new Course("ENSF", "607"));
         alexStudent.register(catalogue, "ENSF", "700", 3);
 
         alexStudent.showClasses();

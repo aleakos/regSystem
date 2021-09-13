@@ -19,7 +19,7 @@ public class Course {
     public void addPreq(Course course){preReqs.put(course.toString(), course); }
 
     public boolean checkPreq(Course course){
-        return preReqs.containsKey(course.toString());
+        return (preReqs.containsKey(course.toString()) || preReqs.size() == 0);
     }
 
     public void addOffering(CourseOffering offering){
