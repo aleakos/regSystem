@@ -63,6 +63,16 @@ public class CourseOffering {
         return (registrations.size() >= minStudents);
     }
 
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(getCourse()).append(": ");
+        builder.append("Section: ").append(getSection()).append(" ");
+        builder.append("Instructor: ").append(getInstructor()).append("\n");
+
+        return builder.toString();
+    }
+
     public boolean hasRoom(){
         return (registrations.size() <= maxStudents);
     }

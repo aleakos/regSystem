@@ -1,11 +1,12 @@
 package com.registration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class FrontEnd {
-//    simulate Student database
-    HashMap<Integer, Student> studentDB;
-    private CourseCatalogue catalogue;
+//    simulate databases
+    private CourseCatalogue catalogue = new CourseCatalogue();
+    private HashMap<Integer, Student> studentDB;
     private Student thisStudent;
     private Scanner userIn = new Scanner(System.in);
 
@@ -13,8 +14,8 @@ public class FrontEnd {
         return thisStudent;
     }
 
-    public FrontEnd(CourseCatalogue catalogue){
-        this.catalogue = catalogue;
+    public FrontEnd(){
+
         populateStudentDB();
 
     }
@@ -22,9 +23,9 @@ public class FrontEnd {
     private void populateStudentDB(){
         studentDB = new HashMap<>();
 
-        Student s1 = new Student(new Name("John", "Doe"));
-        Student s2 = new Student(new Name("Jane", "Doe"));
-        Student s3 = new Student(new Name("Joe", "Schmo"));
+        Student s1 = new Student(new Name("John", "Doe"), catalogue);
+        Student s2 = new Student(new Name("Jane", "Doe"), catalogue);
+        Student s3 = new Student(new Name("Joe", "Schmo"),catalogue);
 
         studentDB.put(s1.getSid(), s1);
         studentDB.put(s2.getSid(), s2);
@@ -91,7 +92,9 @@ public class FrontEnd {
         }
         while (!valid);
 
-        this.thisStudent = new Student(new Name(first, last));
+        this.thisStudent = new Student(new Name(first, last), catalogue);
+        // adding in the pre req
+        this.thisStudent.addCoursesCompleted(new Course("ENGG", "100"));
 
     }
 
@@ -181,7 +184,7 @@ public class FrontEnd {
 
     public Course findCourse(){
 
-        String courseName = promptCourseName();
+        String courseName = promptCourseName().toUpperCase(Locale.ROOT);
         String courseNumber = promptCourseNumber();
         return catalogue.searchCatalouge(courseName, courseNumber);
 
@@ -198,14 +201,20 @@ public class FrontEnd {
 
     public void addCourse(){
         Course course = findCourse();
-        Integer section = promptSectionNumber();
-        thisStudent.register(catalogue, course.getCourseName(), course.getCourseNumber(), section);
+        if (course != null ){
+            Integer section = promptSectionNumber();
+            thisStudent.register(course.getCourseName(), course.getCourseNumber(), section);
+        } else {
+            System.out.println("This course does not exist, please try again.");
+            System.out.println();
+        }
+
     }
 
     public void removeCourse(){
         Course course = findCourse();
         Integer section = promptSectionNumber();
-        thisStudent.unRegister(catalogue, course.getCourseName(), course.getCourseNumber(), section);
+        thisStudent.unRegister(course.getCourseName(), course.getCourseNumber(), section);
     }
 
 
@@ -278,8 +287,7 @@ public class FrontEnd {
 
     public static void main(String[] args){
 
-        CourseCatalogue catalogue = new CourseCatalogue();
-        FrontEnd commandLine = new FrontEnd(catalogue);
+        FrontEnd commandLine = new FrontEnd();
         commandLine.promptStudent();
 //        loop through until the user exits
         while(true){
