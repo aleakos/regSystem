@@ -30,6 +30,7 @@ public class Registration {
         offering.removeRegistration(this);
     }
 
+
     public void setGrade(char grade) {
         this.grade = grade;
     }

@@ -1,6 +1,5 @@
 package com.registration;
 
-import javax.swing.plaf.IconUIResource;
 import java.util.HashMap;
 
 public class CourseCatalogue {
@@ -48,14 +47,14 @@ public class CourseCatalogue {
         Course preReq = new Course("ENGG", "100");
 
         for (Course c: imaginaryDB.values()){
-            c.addPreq(preReq);
-            c.addOffering(new CourseOffering("Dr.A", 1, c));
-            c.addOffering(new CourseOffering("Dr.B", 2, c));
-            c.addOffering(new CourseOffering("Dr.C", 3, c));
+            c.addPreReq(preReq);
+            c.addOffering(new CourseOffering("Dr.A", 1));
+            c.addOffering(new CourseOffering("Dr.B", 2));
+            c.addOffering(new CourseOffering("Dr.C", 3));
         }
 
 //        testing out pre req
-        imaginaryDB.get(ENSF700.toString()).addPreq(ENSF607);
+        imaginaryDB.get(ENSF700.toString()).addPreReq(ENSF607);
 
         return imaginaryDB;
     }
@@ -75,6 +74,8 @@ public class CourseCatalogue {
         System.out.println(cat.toString());
 
         Course c = cat.searchCatalouge("ENSF","607" );
+        System.out.println(c);
         Course d = cat.searchCatalouge("ENSF","608" );
+        System.out.println(d);
     }
 }

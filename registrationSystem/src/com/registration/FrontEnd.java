@@ -23,9 +23,9 @@ public class FrontEnd {
     private void populateStudentDB(){
         studentDB = new HashMap<>();
 
-        Student s1 = new Student(new Name("John", "Doe"), catalogue);
-        Student s2 = new Student(new Name("Jane", "Doe"), catalogue);
-        Student s3 = new Student(new Name("Joe", "Schmo"),catalogue);
+        Student s1 = new Student(new Name("John", "Doe"));
+        Student s2 = new Student(new Name("Jane", "Doe"));
+        Student s3 = new Student(new Name("Joe", "Schmo"));
 
         studentDB.put(s1.getSid(), s1);
         studentDB.put(s2.getSid(), s2);
@@ -92,7 +92,7 @@ public class FrontEnd {
         }
         while (!valid);
 
-        this.thisStudent = new Student(new Name(first, last), catalogue);
+        this.thisStudent = new Student(new Name(first, last));
         // adding in the pre req
         this.thisStudent.addCoursesCompleted(new Course("ENGG", "100"));
 
@@ -163,16 +163,13 @@ public class FrontEnd {
             case 4:
                 displayAllCatalouge();
                 break;
-//                is this showing enrolled classes or previously taken?
             case 5:
                 thisStudent.showClasses();
                 break;
             case 6:
                 closeScanner();
+                System.out.println("Closing program now....");
                 System.exit(0);
-                break;
-            default:
-                System.out.println("wrong");
                 break;
         }
     }
@@ -203,7 +200,7 @@ public class FrontEnd {
         Course course = findCourse();
         if (course != null ){
             Integer section = promptSectionNumber();
-            thisStudent.register(course.getCourseName(), course.getCourseNumber(), section);
+            thisStudent.register(catalogue, course.getCourseName(), course.getCourseNumber(), section);
         } else {
             System.out.println("This course does not exist, please try again.");
             System.out.println();
@@ -213,8 +210,15 @@ public class FrontEnd {
 
     public void removeCourse(){
         Course course = findCourse();
-        Integer section = promptSectionNumber();
-        thisStudent.unRegister(course.getCourseName(), course.getCourseNumber(), section);
+        if (course != null ){
+            Integer section = promptSectionNumber();
+            thisStudent.unRegister(catalogue, course.getCourseName(), course.getCourseNumber(), section);
+
+        } else {
+            System.out.println("This course does not exist, please try again.");
+            System.out.println();
+        }
+
     }
 
 

@@ -6,30 +6,25 @@ public class Student {
     private final Name studentName;
     private static int nextSid = 100;
     private int sid;
-    private CourseCatalogue catalogue;
     private ArrayList<Registration> registrations;
     private ArrayList<Course> coursesCompleted;
 
-    public Student(Name studentName, CourseCatalogue catalogue){
+    public Student(Name studentName){
         registrations = new ArrayList<>();
         coursesCompleted = new ArrayList<>();
         this.studentName = studentName;
-        this.catalogue = catalogue;
-
         setSid();
 
     }
 
-    public void register(String courseName, String courseNumber,  Integer sectionNumber){
+    public void register(CourseCatalogue catalogue, String courseName, String courseNumber,  Integer sectionNumber){
         Course theCourse = catalogue.searchCatalouge(courseName, courseNumber);
 
         if (theCourse != null && belowMaxEnrolled() && meetsPreReq(theCourse)) {
             CourseOffering theOffering = theCourse.getOfferings().get(sectionNumber);
             if (theOffering != null && !registrationDuplicate(theOffering) && theOffering.hasRoom()) {
                 Registration registration = new Registration(this, theOffering);
-                System.out.println();
                 System.out.println("Registration successful!");
-                System.out.println();
                 return;
             }
         }
@@ -43,16 +38,14 @@ public class Student {
         registrations.add(registration);
     }
 
-    public void unRegister(String courseName, String courseNumber,  int sectionNumber){
+    public void unRegister(CourseCatalogue catalogue, String courseName, String courseNumber,  int sectionNumber){
         Course theCourse = catalogue.searchCatalouge(courseName, courseNumber);
         if (theCourse != null){
             CourseOffering theOffering = theCourse.getOfferings().get(sectionNumber);
             Registration matchedReg = findRegistrationMatch(theOffering);
             if (matchedReg != null) {
                 matchedReg.removeRegistration(this, theOffering);
-                System.out.println();
-                System.out.println("Successfully un enrolled!");
-                System.out.println();
+                System.out.println("Un enrolled successfully!");
                 return;
             }
         }
@@ -65,8 +58,7 @@ public class Student {
         ArrayList<Registration> offeringRegistrations = theOffering.getRegistrations();
 
         for (Registration reg: offeringRegistrations){
-//             use == because we're looking for an instance match
-            if (reg.getStudent() == this)
+            if (reg.getStudent().equals(this))
                 return reg;
         }
         return null;
@@ -74,8 +66,7 @@ public class Student {
 
     public void removeRegistration(Registration registration){
         for(Registration reg: registrations){
-//             use == because we're looking for an instance match
-            if (reg == registration) {
+            if (reg.equals(registration)) {
                 registrations.remove(registration);
                 return;
             }
@@ -84,7 +75,6 @@ public class Student {
 
     public boolean registrationDuplicate(CourseOffering theOffering){
         for (Registration reg: registrations){
-//             use == because we're looking for an instance match
             if (reg.getCourseOffering() == theOffering)
                 return true;
         }
@@ -96,7 +86,7 @@ public class Student {
         StringBuilder courses = new StringBuilder().append(studentName.getFirstName()).append("'s courses:\n");
         int i = 0;
         for (Registration reg: registrations){
-            courses.append(++i).append(": ").append(reg.getCourseOffering()).append("\n");
+            courses.append(++i).append(": ").append(reg.getCourseOffering());
         }
         System.out.println(courses.toString());
     }
@@ -110,7 +100,7 @@ public class Student {
         int preReqTally = 0;
 
         for (Course c: coursesCompleted){
-            if (newCourse.checkPreq(c)) preReqTally++;
+            if (newCourse.checkPreReq(c)) preReqTally++;
         }
         return preReqTally == newCourse.getPreReqs().size();
     }
@@ -136,28 +126,28 @@ public class Student {
 //        testing
         CourseCatalogue catalogue = new CourseCatalogue();
         Name alex = new Name("Alex", "Leakos");
-        Student alexStudent = new Student(alex, catalogue);
+        Student alexStudent = new Student(alex);
         alexStudent.addCoursesCompleted(new Course("ENGG", "100"));
 
-        alexStudent.register("ENSF", "607", 3);
-        alexStudent.register("ENSF", "608", 3);
-        alexStudent.register("ENSF", "610", 3);
-        alexStudent.register("ENSF", "614", 3);
-        alexStudent.register("ENGG", "500", 3);
-        alexStudent.register("ENGG", "101", 3);
+        alexStudent.register(catalogue, "ENSF", "607", 3);
+        alexStudent.register(catalogue, "ENSF","608", 3);
+        alexStudent.register(catalogue, "ENSF","610", 3);
+        alexStudent.register(catalogue, "ENSF","614", 3);
+        alexStudent.register(catalogue, "ENGG","500", 3);
+        alexStudent.register(catalogue, "ENGG","101", 3);
         alexStudent.showClasses();
-        alexStudent.register("ENGG", "500", 3);
-        alexStudent.unRegister("ENGG", "500", 3);
+        alexStudent.register(catalogue, "ENGG","500", 3);
+        alexStudent.unRegister(catalogue, "ENGG","500", 3);
         alexStudent.showClasses();
-        alexStudent.unRegister("ENGG", "101", 3);
+        alexStudent.unRegister(catalogue, "ENGG","101", 3);
         alexStudent.showClasses();
-        alexStudent.register("ENSF", "700", 3);
+        alexStudent.register(catalogue, "ENSF","700", 3);
         alexStudent.showClasses();
-        alexStudent.unRegister("ENSF", "700", 3);
-        alexStudent.unRegister("ENSF", "607", 3);
+        alexStudent.unRegister(catalogue, "ENSF","700", 3);
+        alexStudent.unRegister(catalogue, "ENSF","607", 3);
 //         adding in a pre req
         alexStudent.addCoursesCompleted(new Course("ENSF", "607"));
-        alexStudent.register("ENSF", "700", 3);
+        alexStudent.register(catalogue, "ENSF","700", 3);
 
         alexStudent.showClasses();
     }

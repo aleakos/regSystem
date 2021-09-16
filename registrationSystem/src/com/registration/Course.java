@@ -16,14 +16,15 @@ public class Course {
         preReqs = new HashMap<>();
     }
 
-    public void addPreq(Course course){preReqs.put(course.toString(), course); }
+    public void addPreReq(Course course){preReqs.put(course.toString(), course); }
 
-    public boolean checkPreq(Course course){
+    public boolean checkPreReq(Course course){
         return (preReqs.containsKey(course.toString()) || preReqs.size() == 0);
     }
 
     public void addOffering(CourseOffering offering){
         offerings.put(offering.getSection(), offering);
+        offering.setCourse(this);
     }
 
     public String getCourseName() {
@@ -70,7 +71,7 @@ public class Course {
 
     public static void main(String[] args) {
         Course course = new Course("ENSF","607");
-        CourseOffering offering = new CourseOffering("Dr.M", 3, course);
+        CourseOffering offering = new CourseOffering("Dr.M", 3);
         course.addOffering(offering);
         System.out.println(offering.displayOffering());
     }
